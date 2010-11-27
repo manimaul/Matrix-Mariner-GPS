@@ -1,0 +1,18 @@
+MatrixMariner GPS
+
+Features:
+A simple, customizable and easy to read display of essential GPS data.
+
+Share your GPS over an unlimited number of virtual Serial ports or provide a TCP network service.
+
+Share your GPS as a KML network link to track GPS position live using Google Earth.  Control the zoom, tilt and view rotation.  KML file can be opened on any computer with network access to computer running MMG.
+
+Requirements:
+A standard NMEA0183 GPS.
+
+At least RMC is recommended.  GGA, VTG, and GSA sentences also supported.
+RMC, or (GGA, VTG) sentence(s) required for fully functional KML output.
+
+Any and all serial input data will be shared over virtual serial ports and TCP service.
+
+In Windows operating system MMGPS uses eterlogic virtual serial port emulator kernel mode driver for virtual serial ports.  This feature is only available on 32bit versions of Windows.
