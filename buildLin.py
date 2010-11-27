@@ -7,7 +7,11 @@ from distutils.dir_util import copy_tree
 import shutil
 from UserSettings import version as ver
 
-shutil.rmtree('./build/DEB')
+try:
+    shutil.rmtree('./build/DEB')
+except OSError:
+    pass
+
 os.makedirs('./build/DEB/DEBIAN')
 os.makedirs('./build/DEB/usr/bin')
 os.makedirs('./build/DEB/usr/lib/mmgps')

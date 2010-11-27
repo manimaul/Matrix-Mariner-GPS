@@ -23,6 +23,10 @@ class vsp:
         #name = string - full path simlinking to slave fd
         #vcom = int - master fd to be written to
         self.bytes = 0
+        try:
+            os.makedirs(self.dir)
+        except OSError:
+            pass
         for file in os.listdir(self.dir):
             if file.startswith('vgps'):
                 fpath = self.dir + '/' + file
