@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+# Copyright (C) 2010 by Will Kamp <manimaul!gmail.com>
+
 from sys import getsizeof
 
 class record:
