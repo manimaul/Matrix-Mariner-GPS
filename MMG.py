@@ -352,8 +352,8 @@ class SettingsDialogSub(GUI.SettingsDialog):
             if gpsCOM != '':
                 self.gps_input_apply.Disable()
                 services.gps = Gpscom.gps(gpsCOM, gpsBaud)
-                threading.Timer(3, self.mutexReLayout).start()
                 services.gps.setfreshtime(5) #set the data timeout
+                threading.Timer(3, self.mutexReLayout).start()
                 self.datarxtxT = threading.Thread(target=self.datarxtx) #receives data to be transmitted as output
                 self.datarxtxT.setName('datarxtx')
                 self.datarxtxT.setDaemon(True) #python won't wait for it to terminate
@@ -856,6 +856,25 @@ class MainWindowSub(GUI.MainWindow):
                 loc.SetLabel(text)
         #if action == 'view':
         #    self.viewSettings()
+    def OnLeftDown(self, evt):
+        parent = wx.GetTopLevelParent(self)
+        self.CaptureMouse()
+        x, y = parent.ClientToScreen(evt.GetPosition())
+        originx, originy = parent.GetPosition()
+        dx = x - originx
+        dy = y - originy
+        self.delta = ((dx, dy))
+        
+    def OnLeftUp(self, evt):
+        if self.HasCapture():
+            self.ReleaseMouse()
+            
+    def OnMouseMove(self, evt):
+        if evt.Dragging() and evt.LeftIsDown():
+            parent = wx.GetTopLevelParent(self)
+            x, y = self.ClientToScreen(evt.GetPosition())
+            fp = (x - self.delta[0], y - self.delta[1])
+            parent.Move(fp)
             
     def bindEvents(self):
         self.Bind(EVT_DATARX, self.OnEvent)
@@ -1050,6 +1069,7 @@ def mmgRun():
     global MainWindow 
     MainWindow = MainWindowSub(None) #Object for main window
     MainWindow.SetDoubleBuffered(True) #Reduces flickering
+    MainWindow.SetTransparent(150)
     
     '''set the icons'''
     d = abspath(UserSettings.workdir + '/rc/mmg.ico')
@@ -1124,6 +1144,9 @@ def mmgRun():
     MainWindow.Bind(wx.EVT_CLOSE, MainWindow.killAll)
     MainWindow.Unbind(wx.EVT_RIGHT_DOWN) #override wx.EVT_RIGHT_DOWN in GUI automatically created by wxFB
     MainWindow.Bind(wx.EVT_CONTEXT_MENU, MainWindow.MainWindowOnContextMenu) #replace EVT_RIGHT_DOWN with this... works better
+    MainWindow.Bind(wx.EVT_LEFT_DOWN, MainWindow.OnLeftDown)
+    MainWindow.Bind(wx.EVT_LEFT_UP, MainWindow.OnLeftUp)
+    MainWindow.Bind(wx.EVT_MOTION, MainWindow.OnMouseMove)
     #MainWindow.Bind(wx.EVT_SIZING, MainWindow.onResize)
     MainWindow.bindEvents() #bind events to custom event handler
     LicenseDlg.Bind(wx.EVT_CLOSE, MainWindow.killAll)

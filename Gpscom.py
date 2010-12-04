@@ -48,9 +48,8 @@ class gps():
         self.tickT.setDaemon(True)
         self.tickT.start()
         self.freshF = Timer(self.freshtime, self.keepfresh)
-        self.freshT = Thread(target=self.keepfresh)
-        self.freshT.setDaemon(True)
-        self.freshT.start()
+        self.freshF.setDaemon(True)
+        self.keepfresh()
         if not com.endswith('.txt'):
             self.sim = False
             self.comT = Thread(target=self.readCom)
@@ -161,6 +160,7 @@ class gps():
                 self.alive.clear()
                           
     def keepfresh(self):
+        print 'keeping fresh'
         if self.debug:
             print 'keepfresh: in the last ' + str(self.freshtime) + 'seconds'
             print 'rmc count is', self.rmcCount
@@ -190,6 +190,8 @@ class gps():
         self.gsaCount = 0
         self.vtgCount = 0
         if self.alive.isSet():
+            self.freshF = Timer(self.freshtime, self.keepfresh)
+            self.freshF.setDaemon(True)
             self.freshF.start()
     
     def rxline(self):
@@ -218,7 +220,7 @@ class gps():
         self.tickT.join()
         print 'joining Gpscom.freshT'
         self.freshF.cancel()
-        self.freshT.join()
+        #self.freshT.join()
         if hasattr(self, 'com') and self.sim == False: #simulation files are already closed
             print 'closing Gpscom.com'
             self.com.close()

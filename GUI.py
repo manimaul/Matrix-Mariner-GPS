@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 
 ###########################################################################
-## Python code generated with wxFormBuilder (version Oct 12 2010)
+## Python code generated with wxFormBuilder (version Feb 17 2010)
 ## http://www.wxformbuilder.org/
 ##
 ## PLEASE DO "NOT" EDIT THIS FILE!
@@ -679,7 +679,7 @@ class SureDlg ( wx.Dialog ):
 class MainWindow ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"MMG", pos = wx.DefaultPosition, size = wx.Size( -1,-1 ), style = wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.RESIZE_BORDER|wx.STAY_ON_TOP|wx.SYSTEM_MENU|wx.CLIP_CHILDREN )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"MMG", pos = wx.DefaultPosition, size = wx.Size( -1,-1 ), style = wx.RESIZE_BORDER|wx.STAY_ON_TOP|wx.CLIP_CHILDREN|wx.SUNKEN_BORDER )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		self.SetForegroundColour( wx.Colour( 0, 0, 0 ) )
