@@ -75,7 +75,7 @@ class SettingsDialog ( wx.Dialog ):
 		gSizer3.Add( self.gps_source_label, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
 		
 		gps_source_comboChoices = []
-		self.gps_source_combo = wx.ComboBox( self.m_panel28, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, gps_source_comboChoices, wx.CB_READONLY )
+		self.gps_source_combo = wx.ComboBox( self.m_panel28, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, gps_source_comboChoices, 0 )
 		gSizer3.Add( self.gps_source_combo, 0, wx.ALIGN_LEFT|wx.ALIGN_TOP|wx.ALL, 5 )
 		
 		self.gps_baud_label = wx.StaticText( self.m_panel28, wx.ID_ANY, u"Baud Rate", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -140,7 +140,7 @@ class SettingsDialog ( wx.Dialog ):
 		self.gps_input_panel.SetSizer( bSizer4 )
 		self.gps_input_panel.Layout()
 		bSizer4.Fit( self.gps_input_panel )
-		self.gps_input_notebook.AddPage( self.gps_input_panel, u"GPS Input", False )
+		self.gps_input_notebook.AddPage( self.gps_input_panel, u"GPS Input", True )
 		self.output_panel = wx.Panel( self.gps_input_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		bSizer10 = wx.BoxSizer( wx.VERTICAL )
 		
@@ -324,7 +324,7 @@ class SettingsDialog ( wx.Dialog ):
 		self.output_panel.SetSizer( bSizer10 )
 		self.output_panel.Layout()
 		bSizer10.Fit( self.output_panel )
-		self.gps_input_notebook.AddPage( self.output_panel, u"Output", True )
+		self.gps_input_notebook.AddPage( self.output_panel, u"Output", False )
 		self.information_panel = wx.Panel( self.gps_input_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		gSizer2 = wx.GridSizer( 9, 2, 0, 0 )
 		
@@ -834,6 +834,9 @@ class MainWindow ( wx.Frame ):
 		self.Layout()
 		self.bSizer1.Fit( self )
 		self.OptionsMenu = wx.Menu()
+		self.minimize = wx.MenuItem( self.OptionsMenu, wx.ID_ANY, u"Minimuze", wx.EmptyString, wx.ITEM_NORMAL )
+		self.OptionsMenu.AppendItem( self.minimize )
+		
 		self.settings = wx.MenuItem( self.OptionsMenu, wx.ID_ANY, u"Settings", wx.EmptyString, wx.ITEM_NORMAL )
 		self.OptionsMenu.AppendItem( self.settings )
 		
@@ -854,6 +857,7 @@ class MainWindow ( wx.Frame ):
 		
 		# Connect Events
 		self.Bind( wx.EVT_SIZE, self.onResize )
+		self.Bind( wx.EVT_MENU, self.miniMe, id = self.minimize.GetId() )
 		self.Bind( wx.EVT_MENU, self.showSettings, id = self.settings.GetId() )
 		self.Bind( wx.EVT_MENU, self.switchColorMode, id = self.colorMode.GetId() )
 		self.Bind( wx.EVT_MENU, self.showKMLCtrl, id = self.kmlCtrl.GetId() )
@@ -866,6 +870,9 @@ class MainWindow ( wx.Frame ):
 	
 	# Virtual event handlers, overide them in your derived class
 	def onResize( self, event ):
+		event.Skip()
+	
+	def miniMe( self, event ):
 		event.Skip()
 	
 	def showSettings( self, event ):
