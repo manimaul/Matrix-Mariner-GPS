@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.2">
+<NetworkLink>
+	<name>MatrixMariner GPS</name>
+	<open>1</open>
+	<Link>
+		<href>http://%s:%s/gps.kml</href>
+        <refreshInterval>3</refreshInterval>
+        <refreshMode>onInterval</refreshMode>
+    </Link>
+	<flyToView>1</flyToView>
+</NetworkLink>
+</kml>
