@@ -1,3 +1,9 @@
+####Matrix Mariner GPS 1.0beta4 changes:
+fixed baud remember
+fixed tcpd not working
+removed window frame and follows mouse
+added minimize in options menu
+
 ####Matrix Mariner GPS 1.0beta3 changes:
 Only allow one instance of application to prevent errors
 
