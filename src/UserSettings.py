@@ -11,12 +11,17 @@ arch = machine()
 
 workdir = os.getcwd()
 homedir = os.path.expanduser('~') #C:\Users\will in win7
+
 if opsys == 'Windows':
-    recrdir = (homedir + '\\appdata\\local\\mmg\\recordings\\')
-    cfgfile = (homedir + '\\appdata\\local\\mmg\\config.txt')
+    #recrdir = (homedir + '\\appdata\\local\\mmg\\recordings\\')
+    #cfgfile = (homedir + '\\appdata\\local\\mmg\\config.txt')
+    recrdir = ('C:\\ProgramData\\mmg\\recordings\\')
+    cfgdir = ('C:\\ProgramData\\mmg\\')
+    cfgfile = ('C:\\ProgramData\\mmg\\config.txt')
     mrecdir = workdir + '\\rc\\recordings\\'
 if opsys == 'Linux':
     recrdir = (homedir + '/.mmg/recordings/')
+    cfgdir = (homedir + '.mmg/')
     cfgfile = (homedir + '/.mmg/config.txt')
     mrecdir = workdir + '/rc/recordings/'
 version = '1.0beta4'

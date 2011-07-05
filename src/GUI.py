@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 
 ###########################################################################
-## Python code generated with wxFormBuilder (version Feb 17 2010)
+## Python code generated with wxFormBuilder (version Sep  8 2010)
 ## http://www.wxformbuilder.org/
 ##
 ## PLEASE DO "NOT" EDIT THIS FILE!
@@ -70,21 +70,20 @@ class SettingsDialog ( wx.Dialog ):
 		
 		gSizer3 = wx.GridSizer( 2, 2, 0, 0 )
 		
-		self.gps_source_label = wx.StaticText( self.m_panel28, wx.ID_ANY, u"GPS Source", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.gps_source_label = wx.StaticText( self.m_panel28, wx.ID_ANY, u"GPS Source:  COM", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.gps_source_label.Wrap( -1 )
-		gSizer3.Add( self.gps_source_label, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
+		gSizer3.Add( self.gps_source_label, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
-		gps_source_comboChoices = []
-		self.gps_source_combo = wx.ComboBox( self.m_panel28, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, gps_source_comboChoices, 0 )
-		gSizer3.Add( self.gps_source_combo, 0, wx.ALIGN_LEFT|wx.ALIGN_TOP|wx.ALL, 5 )
+		self.gps_source_spinCtrl = wx.SpinCtrl( self.m_panel28, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 70,-1 ), wx.SP_ARROW_KEYS, 1, 999, 1 )
+		gSizer3.Add( self.gps_source_spinCtrl, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
-		self.gps_baud_label = wx.StaticText( self.m_panel28, wx.ID_ANY, u"Baud Rate", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.gps_baud_label = wx.StaticText( self.m_panel28, wx.ID_ANY, u"Baud Rate: ", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.gps_baud_label.Wrap( -1 )
-		gSizer3.Add( self.gps_baud_label, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
+		gSizer3.Add( self.gps_baud_label, 0, wx.ALIGN_RIGHT|wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		gps_baud_comboChoices = [ u"4800", u"9600", u"19200", u"38400", u"57600", u"115200" ]
-		self.gps_baud_combo = wx.ComboBox( self.m_panel28, wx.ID_ANY, u"4800", wx.DefaultPosition, wx.DefaultSize, gps_baud_comboChoices, 0 )
-		gSizer3.Add( self.gps_baud_combo, 0, wx.ALL, 5 )
+		self.gps_baud_combo = wx.ComboBox( self.m_panel28, wx.ID_ANY, u"4800", wx.DefaultPosition, wx.Size( 70,-1 ), gps_baud_comboChoices, 0 )
+		gSizer3.Add( self.gps_baud_combo, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		bSizer8.Add( gSizer3, 0, wx.EXPAND, 5 )
 		
@@ -140,7 +139,7 @@ class SettingsDialog ( wx.Dialog ):
 		self.gps_input_panel.SetSizer( bSizer4 )
 		self.gps_input_panel.Layout()
 		bSizer4.Fit( self.gps_input_panel )
-		self.gps_input_notebook.AddPage( self.gps_input_panel, u"GPS Input", True )
+		self.gps_input_notebook.AddPage( self.gps_input_panel, u"GPS Input", False )
 		self.output_panel = wx.Panel( self.gps_input_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		bSizer10 = wx.BoxSizer( wx.VERTICAL )
 		
@@ -171,32 +170,14 @@ class SettingsDialog ( wx.Dialog ):
 		
 		bSizer11.Add( self.kmlViewCheckbox, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
 		
-		fgSizer51 = wx.FlexGridSizer( 2, 2, 0, 0 )
-		fgSizer51.SetFlexibleDirection( wx.BOTH )
-		fgSizer51.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		self.ge_button = wx.Button( self.kml_panel, wx.ID_ANY, u"Launch Google Earth", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.ge_button.Enable( False )
 		
-		self.m_staticText29 = wx.StaticText( self.kml_panel, wx.ID_ANY, u"MMG.kml", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText29.Wrap( -1 )
-		self.m_staticText29.SetFont( wx.Font( 8, 74, 90, 92, False, "Tahoma" ) )
-		
-		fgSizer51.Add( self.m_staticText29, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
-		
-		self.m_staticText36 = wx.StaticText( self.kml_panel, wx.ID_ANY, u"will be placed on your Desktop.", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText36.Wrap( -1 )
-		fgSizer51.Add( self.m_staticText36, 0, wx.TOP|wx.BOTTOM|wx.RIGHT, 5 )
-		
-		bSizer11.Add( fgSizer51, 0, wx.ALIGN_CENTER_HORIZONTAL, 5 )
+		bSizer11.Add( self.ge_button, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
 		
 		fgSizer6 = wx.FlexGridSizer( 2, 2, 0, 0 )
 		fgSizer6.SetFlexibleDirection( wx.BOTH )
 		fgSizer6.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		
-		self.m_staticText391 = wx.StaticText( self.kml_panel, wx.ID_ANY, u"Open with", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText391.Wrap( -1 )
-		fgSizer6.Add( self.m_staticText391, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
-		
-		self.m_hyperlink2 = wx.HyperlinkCtrl( self.kml_panel, wx.ID_ANY, u"Google Earth", u"http://earth.google.com", wx.DefaultPosition, wx.DefaultSize, wx.HL_DEFAULT_STYLE )
-		fgSizer6.Add( self.m_hyperlink2, 0, wx.TOP|wx.BOTTOM|wx.RIGHT, 5 )
 		
 		bSizer11.Add( fgSizer6, 0, wx.ALIGN_CENTER_HORIZONTAL, 5 )
 		
@@ -324,7 +305,7 @@ class SettingsDialog ( wx.Dialog ):
 		self.output_panel.SetSizer( bSizer10 )
 		self.output_panel.Layout()
 		bSizer10.Fit( self.output_panel )
-		self.gps_input_notebook.AddPage( self.output_panel, u"Output", False )
+		self.gps_input_notebook.AddPage( self.output_panel, u"Output", True )
 		self.information_panel = wx.Panel( self.gps_input_notebook, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		gSizer2 = wx.GridSizer( 9, 2, 0, 0 )
 		
@@ -466,13 +447,13 @@ class SettingsDialog ( wx.Dialog ):
 		self.Centre( wx.BOTH )
 		
 		# Connect Events
-		self.gps_source_combo.Bind( wx.EVT_ENTER_WINDOW, self.lookNewComs )
 		self.m_button8.Bind( wx.EVT_BUTTON, self.recfDelete )
 		self.replayLoop.Bind( wx.EVT_CHECKBOX, self.replayLoopPicked )
 		self.gps_input_apply.Bind( wx.EVT_BUTTON, self.GPSInputApply )
 		self.gps_input_apply.Bind( wx.EVT_LEFT_UP, self.applyGPSInput )
 		self.kmlToggle.Bind( wx.EVT_TOGGLEBUTTON, self.kmlOut )
 		self.kmlViewCheckbox.Bind( wx.EVT_CHECKBOX, self.showKMLCtrl_ )
+		self.ge_button.Bind( wx.EVT_BUTTON, self.geLaunch )
 		self.virtualList.Bind( wx.EVT_LISTBOX, self.setVirtualFocus )
 		self.m_button9.Bind( wx.EVT_BUTTON, self.virtualAdd )
 		self.m_button10.Bind( wx.EVT_BUTTON, self.virtualRemove )
@@ -509,9 +490,6 @@ class SettingsDialog ( wx.Dialog ):
 	
 	
 	# Virtual event handlers, overide them in your derived class
-	def lookNewComs( self, event ):
-		event.Skip()
-	
 	def recfDelete( self, event ):
 		event.Skip()
 	
@@ -528,6 +506,9 @@ class SettingsDialog ( wx.Dialog ):
 		event.Skip()
 	
 	def showKMLCtrl_( self, event ):
+		event.Skip()
+	
+	def geLaunch( self, event ):
 		event.Skip()
 	
 	def setVirtualFocus( self, event ):
@@ -679,7 +660,7 @@ class SureDlg ( wx.Dialog ):
 class MainWindow ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"MMG", pos = wx.DefaultPosition, size = wx.Size( -1,-1 ), style = wx.RESIZE_BORDER|wx.STAY_ON_TOP|wx.CLIP_CHILDREN|wx.SUNKEN_BORDER )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"MMG", pos = wx.DefaultPosition, size = wx.Size( -1,-1 ), style = wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.RESIZE_BORDER|wx.STAY_ON_TOP|wx.SYSTEM_MENU|wx.CLIP_CHILDREN|wx.SUNKEN_BORDER )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		self.SetForegroundColour( wx.Colour( 0, 0, 0 ) )

@@ -15,13 +15,13 @@ from shutil import copy
 from time import sleep
 from sys import exit
 from re import sub
-from os.path import abspath
+from os import path, startfile
 if UserSettings.opsys == 'Windows':
-    from scanwin32 import basiccomlist
+    #from scanwin32 import basiccomlist
     from getIPwin import getIPAddressList
 
 if UserSettings.opsys == 'Linux':
-    from scanLin import basiccomlist
+    #from scanLin import basiccomlist
     from getIPlin import getIPAddressList
 
 #----------------------------------------------------------------------
@@ -286,12 +286,12 @@ class SettingsDialogSub(GUI.SettingsDialog):
         self.Hide()
         event.Skip()
         
-    def lookNewComs(self, event):
-        lst = basiccomlist()
-        selected = self.gps_source_combo.GetStringSelection() #get selection string
-        SettingsDialog.gps_source_combo.SetItems(lst)
-        i = SettingsDialog.gps_source_combo.FindString(selected)
-        SettingsDialog.gps_source_combo.SetSelection(i)
+#    def lookNewComs(self, event):
+#        lst = basiccomlist()
+#        selected = self.gps_source_combo.GetStringSelection() #get selection string
+#        SettingsDialog.gps_source_combo.SetItems(lst)
+#        i = SettingsDialog.gps_source_combo.FindString(selected)
+#        SettingsDialog.gps_source_combo.SetSelection(i)
         
     def closegps(self):
         if services.gps is not False:
@@ -344,11 +344,11 @@ class SettingsDialogSub(GUI.SettingsDialog):
                 self.recStatus.SetValue('Recording off')
             elif self.recStatus.GetValue() == 'Recording disabled':
                 self.recStatus.SetValue('Recording off')
-            gpsCOM = self.gps_source_combo.GetValue() 
+            gpsCOM = "COM" + str( self.gps_source_spinCtrl.GetValue() )
             gpsBaud = self.gps_baud_combo.GetValue()
             UserSettings.gpsCOM = gpsCOM
             UserSettings.gpsBaud = gpsBaud             
-            print 'Connecting to: ' + gpsCOM
+            print 'Connecting to: ', gpsCOM
             if gpsCOM != '':
                 self.gps_input_apply.Disable()
                 services.gps = Gpscom.gps(gpsCOM, gpsBaud)
@@ -826,7 +826,8 @@ class SettingsDialogSub(GUI.SettingsDialog):
             self.kmlToggle.SetLabel('Stop Tracking')
             MainWindow.OptionsMenu.InsertItem(2, MainWindow.kmlCtrl)
             self.kmlViewCheckbox.Enable()
-            Kml.myserver.createDesktopKML()
+            self.ge_button.Enable()
+            Kml.myserver.createStaticKML()
         else: #kml is off
             services.kmlflag = False
             UserSettings.kml = False
@@ -834,6 +835,18 @@ class SettingsDialogSub(GUI.SettingsDialog):
             self.kmlToggle.SetLabel('Start Tracking')
             MainWindow.OptionsMenu.RemoveItem(MainWindow.kmlCtrl)
             self.kmlViewCheckbox.Disable()
+            self.ge_button.Disable()
+            
+    def geLaunch(self, event):
+        #look for google earth
+        filepath64 = "C:\\Program Files (x86)\\Google\\Google Earth\\client\\googleearth.exe"
+        filepath32 = "C:\\Program Files\\Google\\Google Earth\\client\\googleearth.exe"
+        if path.isfile( filepath64 ):
+            startfile( "C:\\ProgramData\\mmg\\MMG.kml" )
+        elif path.isfile( filepath32 ):
+            startfile( "C:\\ProgramData\\mmg\\MMG.kml" )
+        else:
+            print 'google earth isn\'t installed'
         
     def showKMLCtrl_(self, event):
         if self.kmlViewCheckbox.GetValue():
@@ -1071,7 +1084,7 @@ def mmgRun():
     MainWindow.SetDoubleBuffered(True) #Reduces flickering
     
     '''set the icons'''
-    d = abspath(UserSettings.workdir + '/rc/mmg.ico')
+    d = path.abspath(UserSettings.workdir + '/rc/mmg.ico')
     icon = wx.Icon(d, wx.BITMAP_TYPE_ICO)
     MainWindow.SetIcon(icon)
     MsgDialog.SetIcon(icon)
@@ -1080,16 +1093,16 @@ def mmgRun():
     LicenseDlg.SetIcon(icon)
     
     '''about and license'''
-    d = abspath(UserSettings.workdir + '/rc/mmg.png')
+    d = path.abspath(UserSettings.workdir + '/rc/mmg.png')
     AboutDlg.mmgpng = wx.Bitmap(d, wx.BITMAP_TYPE_ANY)
     AboutDlg.mmgLogo.SetBitmap(AboutDlg.mmgpng)
     AboutDlg.bSizer13.Fit(AboutDlg)
     AboutDlg.title.SetLabel('MatrixMariner GPS %s' %(UserSettings.version))
     AboutDlg.Layout()
     if UserSettings.opsys == 'Windows':
-        d = abspath(UserSettings.workdir + '/rc/windowslicense.txt')
+        d = path.abspath(UserSettings.workdir + '/rc/windowslicense.txt')
     if UserSettings.opsys == 'Linux':
-        d = abspath(UserSettings.workdir + '/rc/linuxlicense.txt')
+        d = path.abspath(UserSettings.workdir + '/rc/linuxlicense.txt')
     f = open(d, 'r')
     lic = f.read()
     LicenseDlg.licText.SetValue(lic)
@@ -1162,9 +1175,9 @@ def mmgRun():
     SettingsDialog.replayLoop.SetValue(UserSettings.loopReplays)
     
     ###gps output tab###
-    d = abspath(UserSettings.workdir + '/rc/greyLED.png')
+    d = path.abspath(UserSettings.workdir + '/rc/greyLED.png')
     SettingsDialog.greyLED = wx.Bitmap(d, wx.BITMAP_TYPE_ANY)
-    d = abspath(UserSettings.workdir + '/rc/redLED.png')
+    d = path.abspath(UserSettings.workdir + '/rc/redLED.png')
     SettingsDialog.redLED = wx.Bitmap(d, wx.BITMAP_TYPE_ANY)
     SettingsDialog.recLED.SetBitmap(SettingsDialog.greyLED)
     SettingsDialog.kmlLED.SetBitmap(SettingsDialog.greyLED)
@@ -1220,27 +1233,24 @@ def mmgRun():
         LicenseDlg.Show()
     
     '''populate available input ports and autoconnect to last'''
-    comlst = basiccomlist()
-    SettingsDialog.gps_source_combo.SetItems(comlst)
-    if comlst.__len__() > 0 and UserSettings.gpsCOM == '':
-        i = SettingsDialog.gps_source_combo.FindString(comlst[-1])
-        SettingsDialog.gps_source_combo.SetSelection(i)
-    else:
-        i = SettingsDialog.gps_source_combo.FindString(UserSettings.gpsCOM)
-        SettingsDialog.gps_source_combo.SetSelection(i)
-        i = SettingsDialog.gps_baud_combo.FindString(str(UserSettings.gpsBaud))
-        SettingsDialog.gps_baud_combo.SetSelection(i)
-        SettingsDialog.autoconnect = wx.Timer(SettingsDialog)
-        SettingsDialog.Bind(wx.EVT_TIMER, SettingsDialog.GPSInputApply(None, True), SettingsDialog.autoconnect)
-        SettingsDialog.autoconnect.Start(milliseconds=2000, oneShot=True)
+    try:
+        i = int(UserSettings.gpsCOM)
+        SettingsDialog.gps_source_spinCtrl.SetSelection(i)
+    except:
+        pass
+    i = SettingsDialog.gps_baud_combo.FindString(str(UserSettings.gpsBaud))
+    SettingsDialog.gps_baud_combo.SetSelection(i)
+    SettingsDialog.autoconnect = wx.Timer(SettingsDialog)
+    SettingsDialog.Bind(wx.EVT_TIMER, SettingsDialog.GPSInputApply(None, True), SettingsDialog.autoconnect)
+    SettingsDialog.autoconnect.Start(milliseconds=2000, oneShot=True)
     
     '''auto-start tcpd, vspe, and/or kml if on last time'''
-    if services.myvs != False:
-        for vsp in UserSettings.vsps:
-            if not comlst.__contains__(vsp): #don't create a virtual com that exists as a real one
-                SettingsDialog.virtualAdd(None, vsp)
-            else:
-                UserSettings.vsps.remove(vsp)
+#    if services.myvs != False:
+#        for vsp in UserSettings.vsps:
+#            if not comlst.__contains__(vsp): #don't create a virtual com that exists as a real one
+#                SettingsDialog.virtualAdd(None, vsp)
+#            else:
+#                UserSettings.vsps.remove(vsp)
             
     if UserSettings.tcpip != '' and UserSettings.tcpport > 0:
         SettingsDialog.tcpCheckbox.SetValue(True)

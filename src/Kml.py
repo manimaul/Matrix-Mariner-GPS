@@ -5,7 +5,7 @@
 from threading import Thread
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from SocketServer import ThreadingMixIn
-from UserSettings import workdir, homedir
+from UserSettings import workdir, cfgdir
 from os.path import abspath
 from platform import system
 if system() == 'Windows':
@@ -39,6 +39,9 @@ class ThreadedHttpRequestHandler(BaseHTTPRequestHandler):
                 self.wfile.write(self.gps)
         except:
             print 'HTTP GET response not sent'
+    
+    def log_message(self, format, *args):
+        return #supress log messages
 
 class HTTPServer(ThreadingMixIn, HTTPServer):
     pass
@@ -75,12 +78,12 @@ class KMLServer:
     def updateKML(self, lat = 0, lon = 0, spd = 0, hdg = 0, alt = 0, rng = 3000, tlt = 30):
         self.handler.gps = self.gps_template %(spd,self.iconhref,lon,lat,rng,tlt,hdg,lon,lat,alt)
         
-    def createDesktopKML(self):
+    def createStaticKML(self):
         d = abspath(workdir + '/rc/MMG.kml')
         readfile = open(d, 'r')
         data = readfile.read() %(getIPAddress(), str(self.port))
         readfile.close()
-        d = abspath(homedir + '/Desktop/MMG.kml')
+        d = abspath(cfgdir + '//MMG.kml')
         writefile = open(d, 'w')
         writefile.writelines(data)
         writefile.close()

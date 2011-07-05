@@ -700,14 +700,14 @@ class gps():
 
 if __name__== "__main__":
     FILE = 'C:\\Documents and Settings\\User\\appdata\\local\\WinGippy\\recordings\\GPS_RECORDING_2.txt'
-    COM = 'COM3'
-    BAUD = 4800
-    #GPS = gps(COM, BAUD, .5)
-    GPS = gps(FILE, simloop=True)
+    COM = '1'
+    BAUD = 38400
+    GPS = gps(COM, BAUD, .5)
+    #GPS = gps(FILE, simloop=True)
     GPS.debug = True
     import os
     import threading
-    threading.Timer(30, GPS.close).start() #schedule close in 30 seconds
+    threading.Timer(5, GPS.close).start() #schedule close in 30 seconds
       
     while GPS.alive.isSet():
         line =  GPS.rxline()
