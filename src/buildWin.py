@@ -19,7 +19,7 @@ buildOptions = dict(compressed = True)
 
  
 setup(name='MMG', 
-        version = '1.0.4', 
+        version = '1.0.5', 
         author = 'Will Kamp', 
         author_email = 'manimaul@gmail.com', 
         url = 'http://matrixmariner.com',

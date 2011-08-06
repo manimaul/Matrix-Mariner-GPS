@@ -24,7 +24,7 @@ if opsys == 'Linux':
     cfgdir = (homedir + '.mmg/')
     cfgfile = (homedir + '/.mmg/config.txt')
     mrecdir = workdir + '/rc/recordings/'
-version = '1.0beta4'
+version = '1.0beta5'
 termsAgreed = False
 
 #Input

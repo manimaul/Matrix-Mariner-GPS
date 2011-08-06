@@ -1232,12 +1232,10 @@ def mmgRun():
     else:
         LicenseDlg.Show()
     
-    '''populate available input ports and autoconnect to last'''
-    try:
-        i = int(UserSettings.gpsCOM)
-        SettingsDialog.gps_source_spinCtrl.SetSelection(i)
-    except:
-        pass
+    '''autoconnect to last com imput port'''
+    i = int(UserSettings.gpsCOM[3:UserSettings.gpsCOM.__len__()+1])
+    SettingsDialog.gps_source_spinCtrl.SetValue(i)
+    
     i = SettingsDialog.gps_baud_combo.FindString(str(UserSettings.gpsBaud))
     SettingsDialog.gps_baud_combo.SetSelection(i)
     SettingsDialog.autoconnect = wx.Timer(SettingsDialog)
